@@ -30,24 +30,23 @@
     <script>
         function irParaPortal() {
             const accountId = document.getElementById('accId').value;
+            // ESTA CHAVE DEVE SER IGUAL À QUE VOCÊ SALVOU NO CUSTOM METADATA NO SALESFORCE
+            const chaveSecreta = "minha_chave_ultra_secreta_2026"; 
             
-            if (!accountId || accountId.length < 15) {
-                alert("Por favor, insira um ID de conta válido do Salesforce.");
+            if (!accountId) {
+                alert("Insira o ID da Conta");
                 return;
             }
-
-            // 1. Gera o "token" simples em Base64 (Simulando o backend)
-            const token = btoa(accountId);
+        
+            // Gera o token no formato "001XXXXXXXXXXXX:minha_chave_ultra_secreta_2026"
+            // E depois transforma tudo em Base64
+            const stringParaValidar = accountId + ":" + chaveSecreta;
+            const token = btoa(stringParaValidar);
             
-            // 2. Define a URL do seu portal (ajustada para a URL que você forneceu)
             const portalUrl = "creative-otter-3dbvzj-dev-ed.trailblaze.my.site.com";
-            
-            // 3. Redireciona com o parâmetro de query
-            const finalUrl = portalUrl + "?token=" + token;
-            
-            console.log("Redirecionando para: " + finalUrl);
-            window.location.href = finalUrl;
+            window.location.href = portalUrl + "?token=" + token;
         }
+
     </script>
 
 </body>
