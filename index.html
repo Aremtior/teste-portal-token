@@ -19,19 +19,20 @@
         <h2>Meu Sistema Externo</h2>
         <p>Simulação de integração com Salesforce</p>
         
-        <label for="accId">ID da Conta no Salesforce:</label>
+        <label for="accountIdField">ID da Conta no Salesforce:</label>
         <input type="text" id="accId" placeholder="Ex: 001XXXXXXXXXXXXXXX" value="">
         
-        <button onclick="irParaPortal()">Acessar Meus Contatos</button>
+        <button onclick="navigateToPortal()">Acessar Meus Contatos</button>
         
         <p class="help">O ID será convertido em Base64 e enviado via URL.</p>
     </div>
 
     <script>
-        function irParaPortal() {
-            const accountId = document.getElementById('accId').value;
+        function navigateToPortal() {
+            const accountId = document.getElementById('accountIdField').value;
             // ESTA CHAVE DEVE SER IGUAL À QUE VOCÊ SALVOU NO CUSTOM METADATA NO SALESFORCE
-            const chaveSecreta = "minha_chave_ultra_secreta_2026"; 
+            const secretKey = "minha_chave_ultra_secreta_2026";
+            const timestamp = Date.now();
             
             if (!accountId) {
                 alert("Insira o ID da Conta");
@@ -40,11 +41,11 @@
         
             // Gera o token no formato "001XXXXXXXXXXXX:minha_chave_ultra_secreta_2026"
             // E depois transforma tudo em Base64
-            const stringParaValidar = accountId + ":" + chaveSecreta;
-            const token = btoa(stringParaValidar);
+            const rawTokenString = accountId + ":" + secretKey + ":" + timestamp;
+            const encodedToken = btoa(rawTokenString);
             
             const portalUrl = "https://creative-otter-3dbvzj-dev-ed.trailblaze.my.site.com/portalaura/s/";
-            window.location.href = portalUrl + "?token=" + token;
+            window.location.href = portalUrl + "?token=" + encodedToken;
         }
 
     </script>
